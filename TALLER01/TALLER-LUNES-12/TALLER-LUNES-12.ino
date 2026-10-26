@@ -3,18 +3,17 @@
 #include <DHT.h>
 
 // ======================================================
-// CONFIGURACIÓN WIFI
+// CONFIGURACIÓN MQTT
 // ======================================================
 
-const char* WIFI_SSID = "Galaxy S25 Ultra";
-const char* WIFI_PASSWORD = "123456789";
-
+const char* WIFI_SSID = "ARTEFACTOS";
+const char* WIFI_PASSWORD = "s^3sQ#9teskVgnb";
 
 // ======================================================
 // CONFIGURACIÓN MQTT
 // ======================================================
 
-const char* MQTT_SERVER = "10.31.64.166";
+const char* MQTT_SERVER = "10.40.9.81";
 const int MQTT_PORT = 1883;
 
 // Topics utilizados por el dashboard React.
@@ -29,11 +28,11 @@ const char* TOPIC_LUZ = "clima/esp32/luz";
 
 // (Estudiante)
 // Definir los pines y objetos necesarios para los sensores.
-#define DHTPIN 4
+#define DHTPIN 35
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
-#define LDRPIN 34
+#define LDRPIN 25
 
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
@@ -128,7 +127,6 @@ void publicarSensores() {
   // Convertir lectura ADC a porcentaje de luz (0-4095 -> 0-100%)
   int luz_porcentaje = map(ldr_adc, 0, 4095, 0, 100);
 
-  // Evitar enviar datos erróneos si el DHT11 falla
   if (isnan(temperatura) || isnan(humedad)) {
     return;
   }
